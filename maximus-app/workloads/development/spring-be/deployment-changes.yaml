@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-be
+  namespace: riag-tech-team-ap-maximus-app
+spec:
+  template:
+    spec:
+      containers:
+      - name: spring-be
+        image: riag.jfrog.io/docker-virtual/application-platform/development/riag/tech/platforms/team-ap/maximus-app/spring-be
+    metadata:
+      annotations:
+        vault.hashicorp.com/agent-pre-populate: 'true'
+        vault.hashicorp.com/agent-init-first: 'true'
+        vault.hashicorp.com/agent-inject: 'true'
+        vault.hashicorp.com/agent-pre-populate-only: 'true'
+        vault.hashicorp.com/agent-configmap: vault-injector-config-spring-be
+        vault.hashicorp.com/service: https://vault.development.cloud.riag.digital

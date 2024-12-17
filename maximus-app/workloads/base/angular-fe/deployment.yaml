@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular-fe
+  namespace: riag-tech-team-ap-maximus-app
+  labels:
+    organisation: riag
+    product-cluster: tech
+    product: team-ap
+    application: maximus-app
+    container: angular-fe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      organisation: riag
+      product-cluster: tech
+      product: team-ap
+      application: maximus-app
+      container: angular-fe
+  template:
+    metadata:
+      annotations:
+        container.apparmor.security.beta.kubernetes.io/angular-fe: runtime/default
+      labels:
+        organisation: riag
+        product-cluster: tech
+        product: team-ap
+        application: maximus-app
+        container: angular-fe
+        # "app" label becomes "destination_app" in the Istio metric labels.
+        app: angular-fe
+    spec:
+      # This K8s SA has to be bound to the Google SA (via WorkloadIdentity), which is bound to the
+      serviceAccountName: ap-team-g8yvtvlapckouhgk49fa4d
+      containers:
+        - name: angular-fe
+          # image will be in stages folder
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: angular-fe-env-vars
+          # Static values which should be present as environment variables for all stages
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: NGINX_ENVSUBST_OUTPUT_DIR
+              value: /tmp
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /index.html
+              port: 8080
+            initialDelaySeconds: 0 #Default 0
+            periodSeconds: 10 #Default 10
+            timeoutSeconds: 1 #Default 1
+            successThreshold: 1 #Default 1
+            failureThreshold: 3 #Default 3
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /index.html
+              port: 8080
+            initialDelaySeconds: 0 #Default 0
+            periodSeconds: 10 #Default 10
+            timeoutSeconds: 1 #Default 1
+            successThreshold: 1 #Default 1
+            failureThreshold: 3 #Default 3
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 256Mi
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: run
+              mountPath:  /var/run
+            - name: log
+              mountPath:  /var/log/nginx
+            - name: cache
+              mountPath:  /var/cache/nginx
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: run
+          emptyDir: {}
+        - name: log
+          emptyDir: {}
+        - name: cache
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
