@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-be-monitoring
+  namespace: riag-retail-team-ca-commodus-app
+  labels:
+    container: spring-be
+spec:
+  ports:
+    - name: http-monitoring
+      port: 9001
+      protocol: TCP
+      targetPort: http-monitoring
+  selector:
+    container: spring-be
+  type: ClusterIP
