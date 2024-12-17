@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: riag-tech-team-ap-maximus-app
+resources:
+- spring-be
+- angular-fe
+- vue-fe
+- cron-job
+- standalone-user

@@ -1,0 +1,8 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: spring-be-vs
+  namespace: riag-tech-team-ap-maximus-app
+spec:
+  hosts:
+    - platform.staging.cloud.riag.digital

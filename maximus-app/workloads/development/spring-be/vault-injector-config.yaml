@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-injector-config-spring-be
+  namespace: riag-tech-team-ap-maximus-app
+data:
+  config-init.hcl: |-
+    "auto_auth" = {
+      "method" = {
+        "config" = {
+          "role" = "ap-team-3qr8xgejbw37xb6jyqszsb"
+          "type" = "iam"
+          "project" = "rd-iam-development-2h5z5v49if"
+          "service_account" = "ap-team-3qr8xgejbw37xb6jyqszsb@rd-iam-development-2h5z5v49if.iam.gserviceaccount.com"
+          "jwt_exp" = 10
+        }
+        "mount_path" = "auth/rd-platform-k8s-development"
+        "type" = "gcp"
+      }
+
+      "sink" = {
+        "config" = {
+          "path" = "/home/vault/.token"
+        }
+
+        "type" = "file"
+      }
+    }
+
+    "exit_after_auth" = true
+    "pid_file" = "/home/vault/.pid"
+
+    "template" = {
+      "contents" = "{{ with secret \"rd-platform-k8s-development/{{ORGANISATION}}/tech/team-ap/maximus-app/spring-be/spring-be-secrets\" }}{{ range $k, $v := .Data.data }}{{ $k }}={{ $v }}{{printf \"\\n\"}}{{ end }}{{ end }}"
+      "destination" = "/vault/secrets/secret.properties"
+      "create_dest_dirs" = true
+    }
+
+    "template" = {
+      "contents" = "{{ with secret \"rd-platform-k8s-development/{{ORGANISATION}}/tech/team-ap/maximus-app/spring-be/spring-be-secrets\" }}{{ .Data.data | toJSONPretty }}\n{{ end }}"
+      "destination" = "/vault/secrets/secret.json"
+      "create_dest_dirs" = true
+    }
+    "template" = {
+      "contents" = "{{ with secret \"external/ipl-messaging/ipl-secrets/{{ORGANISATION}}/tech/team-ap/maximus-app/spring-be/spring-be-secrets/kafka-users\" }}{{ .Data.data | toJSONPretty }}\n{{ end }}"
+      "destination" = "/vault/secrets/kafka-user/secret.json"
+      "create_dest_dirs" = true
+    }
+
+    "template" = {
+        "contents" = "{{ with secret \"external/ipl-messaging/ipl-secrets/{{ORGANISATION}}/tech/team-ap/maximus-app/spring-be/spring-be-secrets/kafka-users\" }}{{ with index .Data.data \"keystore.jks\" }}{{ base64Decode . }}{{ end }}{{ end }}"
+        "destination" = "/vault/secrets/kafka-user/keystore.jks"
+        "create_dest_dirs" = true
+    }
+
+    "template" = {
+        "contents" = "{{ with secret \"external/ipl-messaging/ipl-secrets/{{ORGANISATION}}/tech/team-ap/maximus-app/spring-be/spring-be-secrets/kafka-users\" }}{{ with index .Data.data \"truststore.jks\" }}{{ base64Decode . }}{{ end }}{{ end }}"
+        "destination" = "/vault/secrets/kafka-user/truststore.jks"
+        "create_dest_dirs" = true
+    }
+
+    "template" = {
+      "contents" = "{{ with secret \"external/ipl-messaging/ipl-secrets/{{ORGANISATION}}/tech/team-ap/maximus-app/spring-be/spring-be-secrets/kafka-users\" }}spring.kafka.ssl.key-store-password={{ index .Data.data \"keystore.pw\" }}{{printf \"\\n\"}}spring.kafka.ssl.trust-store-password={{ index .Data.data \"truststore.pw\" }}{{ end }}"
+      "destination" = "/vault/secrets/kafka-user/kafka.properties"
+      "create_dest_dirs" = true
+    }

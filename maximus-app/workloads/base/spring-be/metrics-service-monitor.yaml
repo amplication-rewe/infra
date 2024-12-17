@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: spring-be-metrics
+  namespace: riag-tech-team-ap-maximus-app
+  labels:
+    name: spring-boot-metrics
+spec:
+  selector:
+    matchLabels:
+      # Must match monitoring service labels
+      container: spring-be
+  endpoints:
+    - port: http-monitoring
+      path: /actuator/prometheus
