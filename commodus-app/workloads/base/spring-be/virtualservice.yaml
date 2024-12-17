@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: spring-be-vs
+  namespace: riag-retail-team-ca-commodus-app
+spec:
+  gateways:
+    - istio-system/ingress-https
+  http:
+    - match:
+        - uri:
+            prefix: /riag/retail/team-ca/commodus-app/spring-be/
+      route:
+        - destination:
+            host: spring-be.riag-retail-team-ca-commodus-app.svc.cluster.local
+            port:
+              number: 80
