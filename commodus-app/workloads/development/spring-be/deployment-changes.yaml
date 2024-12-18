@@ -2,13 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spring-be
-  namespace: riag-retail-team-ca-commodus-app
+  namespace: riag-tech-team-ca-commodus-app
 spec:
   template:
     spec:
       containers:
       - name: spring-be
-        image: riag.jfrog.io/docker-virtual/application-platform/development/riag/retail/platforms/team-ca/commodus-app/spring-be
+        image: riag.jfrog.io/docker-virtual/application-platform/development/riag/tech/platforms/team-ca/commodus-app/spring-be
     metadata:
       annotations:
         vault.hashicorp.com/agent-pre-populate: 'true'

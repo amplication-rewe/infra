@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: riag-tech-team-ca-commodus-app
+
+resources:
+- ../../base/angular-fe
+
+patchesStrategicMerge:
+- deployment-changes.yaml
+- virtualservice-changes.yaml
+
+configMapGenerator:
+- literals:
+  - ENVIRONMENT=development
+  name: angular-fe-env-vars
+
+images:
+- digest: sha256:4f15b5e0868fcd8befad35ad956759828fabdc09ef9641735e5ec7e70c3fe89d
+  name: riag.jfrog.io/docker-virtual/application-platform/development/riag/tech/platforms/team-ca/commodus-app/angular-fe

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: vault-injector-config-spring-be
-  namespace: riag-retail-team-ca-commodus-app
+  namespace: riag-tech-team-ca-commodus-app
 data:
   config-init.hcl: |-
     "auto_auth" = {
@@ -31,13 +31,13 @@ data:
     "pid_file" = "/home/vault/.pid"
 
     "template" = {
-      "contents" = "{{ with secret \"rd-platform-k8s-staging/{{ORGANISATION}}/retail/team-ca/commodus-app/spring-be/spring-be-secrets\" }}{{ range $k, $v := .Data.data }}{{ $k }}={{ $v }}{{printf \"\\n\"}}{{ end }}{{ end }}"
+      "contents" = "{{ with secret \"rd-platform-k8s-staging/{{ORGANISATION}}/tech/team-ca/commodus-app/spring-be/spring-be-secrets\" }}{{ range $k, $v := .Data.data }}{{ $k }}={{ $v }}{{printf \"\\n\"}}{{ end }}{{ end }}"
       "destination" = "/vault/secrets/secret.properties"
       "create_dest_dirs" = true
     }
 
     "template" = {
-      "contents" = "{{ with secret \"rd-platform-k8s-staging/{{ORGANISATION}}/retail/team-ca/commodus-app/spring-be/spring-be-secrets\" }}{{ .Data.data | toJSONPretty }}\n{{ end }}"
+      "contents" = "{{ with secret \"rd-platform-k8s-staging/{{ORGANISATION}}/tech/team-ca/commodus-app/spring-be/spring-be-secrets\" }}{{ .Data.data | toJSONPretty }}\n{{ end }}"
       "destination" = "/vault/secrets/secret.json"
       "create_dest_dirs" = true
     }

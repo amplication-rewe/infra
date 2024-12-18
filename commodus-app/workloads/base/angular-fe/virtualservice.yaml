@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: spring-be-vs
+  name: angular-fe-vs
   namespace: riag-tech-team-ca-commodus-app
 spec:
   gateways:
@@ -9,9 +9,11 @@ spec:
   http:
     - match:
         - uri:
-            prefix: /riag/tech/team-ca/commodus-app/spring-be/
+            prefix: /riag/tech/team-ca/commodus-app/angular-fe/
+      rewrite:
+        uri: /
       route:
         - destination:
-            host: spring-be.riag-tech-team-ca-commodus-app.svc.cluster.local
+            host: angular-fe.riag-tech-team-ca-commodus-app.svc.cluster.local
             port:
               number: 80

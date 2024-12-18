@@ -1,6 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: riag-retail-team-ca-commodus-app
+namespace: riag-tech-team-ca-commodus-app
 resources:
 - ../../base/spring-be
 - vault-injector-config.yaml
@@ -20,4 +20,4 @@ configMapGenerator:
   name: spring-be-env-vars
 images:
 - digest: sha256:497f605a379e86ae539d436fa37a14236b1fa645569fe8e009c5898a8f3370ac
-  name: riag.jfrog.io/docker-virtual/application-platform/development/riag/retail/platforms/team-ca/commodus-app/spring-be
+  name: riag.jfrog.io/docker-virtual/application-platform/development/riag/tech/platforms/team-ca/commodus-app/spring-be
