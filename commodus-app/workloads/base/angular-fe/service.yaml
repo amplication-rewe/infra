@@ -6,8 +6,8 @@ metadata:
     product-cluster: tech
     product: team-ca
     application: commodus-app
-    container: spring-be
-  name: spring-be
+    container: angular-fe
+  name: angular-fe
   namespace: riag-tech-team-ca-commodus-app
 spec:
   ports:
@@ -16,5 +16,5 @@ spec:
       protocol: TCP
       targetPort: http
   selector:
-    container: spring-be
+    container: angular-fe
   type: ClusterIP

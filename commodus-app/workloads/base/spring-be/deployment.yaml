@@ -2,10 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spring-be
-  namespace: riag-retail-team-ca-commodus-app
+  namespace: riag-tech-team-ca-commodus-app
   labels:
     organisation: riag
-    product-cluster: retail
+    product-cluster: tech
     product: team-ca
     application: commodus-app
     container: spring-be
@@ -19,7 +19,7 @@ spec:
   selector:
     matchLabels:
       organisation: riag
-      product-cluster: retail
+      product-cluster: tech
       product: team-ca
       application: commodus-app
       container: spring-be
@@ -39,7 +39,7 @@ spec:
         container.apparmor.security.beta.kubernetes.io/spring-be: runtime/default
       labels:
         organisation: riag
-        product-cluster: retail
+        product-cluster: tech
         product: team-ca
         application: commodus-app
         container: spring-be

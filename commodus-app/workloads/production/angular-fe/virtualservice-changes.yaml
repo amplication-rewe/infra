@@ -1,8 +1,8 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: spring-be-vs
+  name: angular-fe-vs
   namespace: riag-tech-team-ca-commodus-app
 spec:
   hosts:
-    - platform.staging.cloud.riag.digital
+    - platform.production.cloud.riag.digital
