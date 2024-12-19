@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: riag-tech-alpha-team-alpha-app
+resources:
+- ../../base/spring-be
+- vault-injector-config.yaml
+- kafka-user-certificate.yaml
+patchesStrategicMerge:
+- deployment-changes.yaml
+- virtualservice-changes.yaml
+configMapGenerator:
+- literals:
+  - ENVIRONMENT=development
+  - SPRING_PROFILES_ACTIVE=development
+  - GOOGLE_PROJECT_ID=rd-platform-k8s-development
+  - GOOGLE_CLOUD_PROJECT=rd-platform-k8s-development
+  - CLUSTER_NAME=development
+  - CONTAINER_NAME=spring-be
+  - LOCATION=europe-west4-a
+  name: spring-be-env-vars
+images:
+- digest: sha256:497f605a379e86ae539d436fa37a14236b1fa645569fe8e009c5898a8f3370ac
+  name: riag.jfrog.io/docker-virtual/application-platform/development/riag/tech/platforms/alpha-team/alpha-app/spring-be
