@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: riag-tech-alpha-team-alpha-app
+
+resources:
+  - ../../base/angular-fe
+
+patchesStrategicMerge:
+  - deployment-changes.yaml
+  - virtualservice-changes.yaml
+
+configMapGenerator:
+  - name: angular-fe-env-vars
+    literals:
+      - ENVIRONMENT=production
+
+images:
+  - name: riag.jfrog.io/docker-virtual/application-platform/production/riag/tech/platforms/alpha-team/alpha-app/angular-fe
+    digest: <TO-BE-REPLACED-BY-FIRST-BUILD>

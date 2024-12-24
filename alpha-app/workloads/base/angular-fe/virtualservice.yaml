@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: angular-fe-vs
+  namespace: riag-tech-alpha-team-alpha-app
+spec:
+  gateways:
+    - istio-system/ingress-https
+  http:
+    - match:
+        - uri:
+            prefix: /riag/tech/alpha-team/alpha-app/angular-fe/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: angular-fe.riag-tech-alpha-team-alpha-app.svc.cluster.local
+            port:
+              number: 80
