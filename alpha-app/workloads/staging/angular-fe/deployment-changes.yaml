@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular-fe
+  namespace: riag-tech-alpha-team-alpha-app
+spec:
+  template:
+    spec:
+      containers:
+        - name: angular-fe
+          # make sure the path and the name matches the kustomization.yaml
+          image: riag.jfrog.io/docker-virtual/application-platform/staging/riag/tech/platforms/alpha-team/alpha-app/angular-fe
