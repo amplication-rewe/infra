@@ -1,0 +1,10 @@
+apiVersion: messaging.tech.rewe.at/v1alpha1
+kind: UserCertificate
+metadata:
+  name: dev.tech.example-app.spring-be
+  annotations:
+    stackstormId: 673de6ed746820e442887dbc
+    stackstormUrl: https://stackstorm.common.cloud.riag.digital/#/history/673de6ed746820e442887dbc
+spec:
+  userAccess:
+  - m.watzer@rewe-group.at
